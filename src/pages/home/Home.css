@@ -1,0 +1,101 @@
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+  height: 100vh;
+}
+
+.content {
+  background-color: #f7f7f7;
+  width: 20rem;
+  height: 30rem;
+  /* border: 1px solid blue; */
+  -webkit-box-shadow: -1px 2px 9px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 2px 9px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 2px 9px 0px rgba(0, 0, 0, 0.75);
+  border-radius: 5px;
+  /* padding: 5px; */
+  overflow-y: scroll;
+}
+
+.content > .nav {
+  height: 3rem;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid gray;
+  padding-bottom: 1px;
+}
+
+.content > .nav > div > img {
+  height: 2.9rem;
+}
+
+.content > .nav > div > svg {
+  margin-right: 1rem;
+}
+
+.content > .block__1,
+.block__2 {
+  /* border: 1px solid black; */
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.content > .block__1 > p {
+  font-size: 1rem;
+  letter-spacing: 1px;
+  font-family: "Poppins", sans-serif;
+}
+
+.content > .block__2 > a {
+  background: #5e5df0;
+  border-radius: 999px;
+  box-shadow: #5e5df0 0 10px 20px -10px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  line-height: 24px;
+  opacity: 1;
+  outline: 0 solid transparent;
+  padding: 8px 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: fit-content;
+  word-break: break-word;
+  border: 0;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.content > .block__2 > a:hover {
+  background-color: #fff;
+  color: #5e5df0;
+}
+
+/* Tablet styles */
+@media screen and (max-width: 1024px) {
+  .content {
+    width: 18rem;
+    height: 30rem;
+  }
+}
+
+/* Phone styles */
+@media screen and (max-width: 480px) {
+  .content {
+    width: 100%;
+    height: 100%;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+}
