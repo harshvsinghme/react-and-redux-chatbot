@@ -9,18 +9,16 @@ import { TMessage } from "../../utils/types";
 const Success = () => {
   const dispatch = useDispatch();
   const CommonState = useSelector((state: any) => state.common);
-  // const userInputSuccess: boolean = CommonState.userInputSuccess;
   const botMessages: TMessage[] = CommonState.botMessages;
+  const { userName, userAge }: { userName: string; userAge: number } =
+    CommonState;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // alert("init success");
     if (botMessages && botMessages.length > 0) navigate("/");
     return () => {
-      // alert("resetting");
       if (botMessages && botMessages.length === 0) {
-        // alert("resetted");
         dispatch(resetEverything());
       }
     };
@@ -45,7 +43,14 @@ const Success = () => {
             <SvgHome />
           </Link>
         </div>
-        <div className="block">Success</div>
+        <div className="block">
+          <p className="msg">
+            Successfully Registered <span>:)</span>
+          </p>
+          <p className="heading">Here are your details</p>
+          <p className="name">Name: {userName}</p>
+          <p className="age">Age: {userAge} yrs</p>
+        </div>
       </div>
     </div>
   );

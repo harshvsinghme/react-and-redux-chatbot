@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import "./Enroll.css";
 import { SvgBack, SvgNav } from "../../utils/svgs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TMessage } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import { alterChatTurn } from "../../store/commonSlice";
-import Button from "../../components/Button";
+import { addMessage, alterChatTurn } from "../../store/commonSlice";
+import InputComponent from "../../components/Index";
 
 var currentTimeOut: NodeJS.Timeout;
 var currentInterval: NodeJS.Timer;
@@ -16,46 +16,35 @@ const Enroll = () => {
   const CommonState = useSelector((state: any) => state.common);
   const botMessages: TMessage[] = CommonState.botMessages;
   const chatTurn: string = CommonState.chatTurn;
+  const messages: TMessage[] = CommonState.messages;
   const navigate = useNavigate();
 
-  const [messages, setMessages] = useState<TMessage[]>([]);
+  const messagesRef = useRef<HTMLDivElement>(null);
 
-  const [timeLeft, setTimeLeft] = useState<number>(16);
+  const [timeLeft, setTimeLeft] = useState<number>(6);
 
-  const displayMessage = (id: number) => {
-    console.log(`em ${id}`);
+  const [hideAtTheMoment, setHideAtTheMoment] = useState<any>({});
 
+  const displayMessage = (id: any) => {
+    if (!id) return;
     currentTimeOut = setTimeout(() => {
-      console.log("ran timeout");
-      let messagesCopy = [...messages];
-      console.log(JSON.stringify(messages));
-      messagesCopy = messagesCopy.map((e) => {
-        const newObj = Object.assign({}, e);
-        if (e.id === id && e.replaceBy) {
-          newObj.content = e.replaceBy;
-          // alert(`${newObj.content}`);
-        }
-        return newObj;
-      });
-      setMessages(messagesCopy);
-      if (botMessages.length) dispatch(alterChatTurn()); //messages left
+      if (messagesRef.current)
+        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+
+      setHideAtTheMoment({ ...hideAtTheMoment, [id]: false });
+      dispatch(alterChatTurn()); //messages left
+
       clearTimeout(currentTimeOut);
     }, 3000);
   };
 
   useEffect(() => {
-    console.log(`running timer: ${timeLeft}s`);
-    // alert(`running timer: ${timeLeft}s`);
-    if (timeLeft < 16 && timeLeft > 0) {
-      console.log(`Now time remaining: ${timeLeft}s`);
-
+    if (timeLeft < 6 && timeLeft > 0) {
       currentInterval = setInterval(() => {
-        // alert("setting time bro" + timeLeft);
         setTimeLeft(timeLeft - 1);
         if (currentInterval) clearInterval(currentInterval);
       }, 1000);
     } else if (timeLeft === 0) {
-      console.log("closing timeleft " + timeLeft);
       if (currentInterval) clearInterval(currentInterval);
       navigate("success");
     }
@@ -64,30 +53,25 @@ const Enroll = () => {
   }, [timeLeft]);
 
   useEffect(() => {
-    console.log("messagees updated bro");
     if (messageId && chatTurn === "bot") displayMessage(messageId);
     return () => {};
   }, [messages]);
 
   useEffect(() => {
-    console.log(chatTurn);
-    if (chatTurn === "bot" && botMessages && botMessages.length > 0) {
-      const newMessages = [...messages];
-      const newMessage = botMessages.at(0);
+    if (chatTurn === "bot" && botMessages) {
+      if (botMessages.length > 0) {
+        const newMessage: any = botMessages.at(0);
 
-      if (newMessage) {
-        newMessages.push(newMessage);
-        setMessages(newMessages);
-        // alert("setMessages");
-        messageId = newMessage.id;
+        if (newMessage) {
+          dispatch(addMessage(newMessage));
+          messageId = newMessage.id;
+          if (messageId)
+            setHideAtTheMoment({ ...hideAtTheMoment, [messageId]: true });
+        }
+      } else {
+        messageId = null;
+        setTimeLeft(timeLeft - 1);
       }
-    } else if (botMessages && botMessages.length === 0) {
-      messageId = null;
-      setTimeLeft(timeLeft - 1);
-      // currentInterval = setInterval(() => {
-      //   alert("setting time bro" + timeLeft);
-      //   setTimeLeft(timeLeft - 1);
-      // }, 1000);
     }
     return () => {};
   }, [chatTurn]);
@@ -113,19 +97,21 @@ const Enroll = () => {
         <div className="utilities">
           <SvgBack goBack={goBack} />
         </div>
-        <div className="messages">
+        <div className="messages" ref={messagesRef}>
           {messages.map((msg) => (
             <div key={msg.id} className={`message sendor-${msg.sender}`}>
-              {msg.content}
+              {msg.sender === "user" || hideAtTheMoment[msg.id]
+                ? msg.content
+                : msg.replaceBy}
             </div>
           ))}
         </div>
         {chatTurn === "user" && (
           <div className="user__inputs">
-            <Button label="Got it!" actionKey="do-nothing" />
+            <InputComponent />
           </div>
         )}
-        {timeLeft < 16 && (
+        {timeLeft < 6 && (
           <div className="alert">
             <p>In {timeLeft}s, you will be redirected to Details Page</p>
           </div>

@@ -45,6 +45,43 @@
   padding-left: 5px;
 }
 
+.content > .block {
+  margin: 0 5px;
+}
+
+.content > .block > .msg {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: rgb(19, 9, 9);
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.content > .block > .heading {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: rgb(156, 84, 84);
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.content > .block > .name {
+  text-align: center;
+  font-size: 0.9rem;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 1rem;
+  color: rgb(12, 9, 19);
+  letter-spacing: 2px;
+}
+.content > .block > .age {
+  text-align: center;
+  font-size: 0.9rem;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 1rem;
+  color: rgb(12, 9, 19);
+  letter-spacing: 2px;
+}
+
 /* Tablet styles */
 @media screen and (max-width: 1024px) {
   .content {
