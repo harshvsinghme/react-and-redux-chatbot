@@ -1,6 +1,6 @@
 # React and Redux based Chatbot
 
-It's create to make a visual of actual chatbot while it's static input based.
+It was created to make a visual of actual chatbot while it's static input based.
 
 ## Technologies Used
 
