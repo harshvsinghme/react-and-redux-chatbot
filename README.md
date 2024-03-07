@@ -6,7 +6,7 @@ It was created to make a visual of actual chatbot while it's static input based.
 
 React, React-Redux, Redux Toolkit, React Router, and so on.
 
-## Prererquisites before running
+## Prerequisites before running
 
 Node.js must be installed in the environment.
 
